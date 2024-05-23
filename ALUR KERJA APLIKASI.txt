@@ -1,0 +1,80 @@
+1. Routing:
+Di bagian routing (web.php), Saya mendefinisikan beberapa route untuk menangani operasi CRUD (Create, Read, Update, Delete) pada data karyawan:
+
+Read (GET /data-karyawan)
+Mengakses halaman yang menampilkan semua data karyawan.
+Dihandle oleh KaryawanController@index.
+
+Create (POST /data-karyawan/add)
+Menambahkan data karyawan baru.
+Dihandle oleh KaryawanController@store dengan nama route karyawan.add.
+
+Update (POST /data-karyawan/edit/{id})
+Mengedit data karyawan yang sudah ada.
+Dihandle oleh KaryawanController@update dengan nama route karyawan.edit.
+
+Delete (DELETE /data-karyawan/delete/{id})
+Menghapus data karyawan.
+Dihandle oleh KaryawanController@destroy dengan nama route karyawan.destroy.
+
+2. Environment Configuration (.env):
+File .env berisi konfigurasi lingkungan untuk aplikasi Laravel Anda. Beberapa konfigurasi penting yang ditentukan di sini:
+
+Database Configuration:
+DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD.
+
+Session Configuration:
+SESSION_DRIVER, SESSION_LIFETIME, SESSION_PATH, SESSION_DOMAIN.
+
+Caching Configuration:
+CACHE_STORE, CACHE_PREFIX.
+
+Mail Configuration:
+MAIL_MAILER, MAIL_HOST, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_ENCRYPTION, MAIL_FROM_ADDRESS, MAIL_FROM_NAME.
+
+3. Model (Karyawan.php):
+Model Karyawan mendefinisikan struktur data karyawan dan mengatur interaksi dengan tabel karyawans di database:
+
+Protected Properties:
+protected $guarded = ['id'];: Melindungi kolom id dari mass-assignment.
+protected $table = 'karyawans';: Menentukan nama tabel yang digunakan.
+
+4. Controller (KaryawanController.php):
+Controller KaryawanController mengatur logika untuk operasi CRUD:
+
+index():
+Mengambil semua data karyawan dari database menggunakan Karyawan::all().
+Mengirim data ke view karyawan dengan compact('karyawans').
+
+store(Request $request):
+Memvalidasi data yang dikirim dari form.
+Membuat instance baru dari Karyawan dan mengisi data dari request.
+Menyimpan data ke database dengan $karyawan->save().
+Mengarahkan kembali dengan pesan sukses.
+
+update(Request $request, $id):
+Memvalidasi data yang dikirim dari form.
+Mengambil data karyawan berdasarkan id.
+Mengupdate data karyawan dengan data baru dari request.
+Menyimpan perubahan dengan $karyawan->save().
+Mengarahkan kembali dengan pesan sukses.
+
+destroy($id):
+Mengambil data karyawan berdasarkan id.
+Menghapus data karyawan dari database dengan $karyawan->delete().
+Mengarahkan kembali dengan pesan sukses.
+
+5. View (karyawan.blade.php):
+View ini menampilkan data karyawan dalam bentuk tabel dan menyediakan form untuk menambah, mengedit, dan menghapus data karyawan. Fitur yang tersedia:
+
+Add Data Button:
+Membuka modal form untuk menambah data karyawan baru.
+
+Table:
+Menampilkan daftar karyawan dengan kolom no, nama, alamat, jabatan, gaji, status, tanggal_lahir, mulai_kerja, dan action.
+
+Edit Button:
+Membuka modal form untuk mengedit data karyawan.
+
+Delete Button:
+Membuka modal konfirmasi untuk menghapus data karyawan.
